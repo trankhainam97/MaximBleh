@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <title>HoopStats</title>
+    <link rel="stylesheet" href="Header.css">
+    <img Class = "displayed" src="Images/Untitled_Artwork.png" height="190" width="1500" alt="Image of HoopStats" class = middle/>
+    <link rel="stylesheet" href="NavBar.css">
+    <link rel="stylesheet" href="TableAppearance.css">
+    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color:#1b1b1b;">
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">Rankings</a>
+    <a href="#">Kings</a>
+    <a href="#">Visual Data</a>
+</div>
+<!--<a href="javascript:Tables.js" onClick=makeTable('PER_Stat.csv');>Click Me</a>-->
+
+<span style="font-size:45px;cursor:pointer;color:#F5F5f5;" onclick="openNav()">&#9776; </span>
+<table class="content-table" center>
+    <a href="#" class="processData" id="makeTable">LoadData</a>
+    <thead>
+        <tr>
+<!--            <th>Rank</th>-->
+<!--            <th>Name</th>-->
+<!--            <th>Team</th>-->
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "data.txt",
+            dataType: "text",
+            success: function(data) {processData(data);}
+        });
+    });
+
+
+
+
+
+
+
+    function makeTable ( csv ) {
+
+        var rows = csv.split('\n'),
+            tbody = document.createElement('tbody');
+            tr = null, td = null,
+            tds = null;
+
+        for ( var i = 0; i < rows.length; i++ ) {
+            tr = document.createElement('tr');
+            tds = rows[i].split(',');
+            for ( var j = 0; j < tds.length; j++ ) {
+                td = document.createElement('td');
+                td.innerHTML = tds[j];
+                tr.appendChild(td);
+            }
+            $(tbody).append(tr);
+        }
+
+        // document.appendChild(table);
+
+        $(".content-table").append(tbody);
+
+    }
+
+    $("#makeTable").on("click", function () {
+        $.ajax({
+            url: "http://localhost:63342/Documents/GitHub/SacHack1/DataSets/PER_Stat.csv",
+            success: function(data) {
+                makeTable(data);
+            }
+        });
+    })
+
+    // function processData() {
+    //     var allTextLines = 'PER_Stat.csv'.split(/\r\n|\n/);
+    //     var headers = allTextLines[0].split(',');
+    //     var lines = [];
+    //
+    //     for (var i=1; i<allTextLines.length; i++) {
+    //         var data = allTextLines[i].split(',');
+    //         if (data.length === headers.length) {
+    //
+    //             var tarr = [];
+    //             for (var j=0; j<headers.length; j++) {
+    //                 tarr.push(headers[j]+":"+data[j]);
+    //             }
+    //             lines.push(tarr);
+    //         }
+    //     }
+    //      return (lines);
+    // }
+</script>
+</body>
+</html>
+
